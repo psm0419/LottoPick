@@ -9,24 +9,17 @@ const numberCounts = {
     41: 141, 42: 148, 43: 159, 44: 155, 45: 168,
 };
 
-function Random() {
-    // 번호별 가중치 계산
-    const totalCount = Object.values(numberCounts).reduce((sum, count) => sum + count, 0);
-    const weightedNumbers = Object.keys(numberCounts).map(num => {
-        const weight = numberCounts[num] / totalCount;  // 가중치 계산
-        return { num: Number(num), weight };
-    });
+function Random({ onHighlightedNumbers }) {
+    // 로또 번호 가중치 배열을 최적화
+    const weightedNumbers = Object.keys(numberCounts).reduce((acc, num) => {
+        const count = numberCounts[num];
+        return acc.concat(Array(count).fill(Number(num))); // 각 번호를 등장 횟수만큼 추가
+    }, []);
 
-    // 랜덤 번호 뽑기 함수 (비율 기반)
+    // 랜덤 번호 뽑기 함수
     const getRandomLottoNumber = () => {
-        const random = Math.random();
-        let cumulativeWeight = 0;
-        for (const { num, weight } of weightedNumbers) {
-            cumulativeWeight += weight;
-            if (random < cumulativeWeight) {
-                return num;
-            }
-        }
+        const randomIndex = Math.floor(Math.random() * weightedNumbers.length);
+        return weightedNumbers[randomIndex];
     };
 
     // 로또 번호 6개 뽑기
@@ -41,13 +34,55 @@ function Random() {
         return lottoNumbers.sort((a, b) => a - b);  // 번호 순으로 정렬
     };
 
+    // 상태: 로또 번호 및 시뮬레이션 결과
     const [lottoNumbers, setLottoNumbers] = useState(generateLottoNumbers());
+    const [simulationResults, setSimulationResults] = useState(null);
+
+    // 새로운 번호가 생성되면 부모 컴포넌트로 전달
+    const handleGenerateLottoNumbers = () => {
+        const newLottoNumbers = generateLottoNumbers();
+        setLottoNumbers(newLottoNumbers);
+        onHighlightedNumbers(newLottoNumbers);  // 뽑힌 번호를 부모로 전달
+    };
+
+    // 1만회 시뮬레이션 함수
+    const runSimulation = () => {
+        const simCount = 10000;
+        const frequency = {};
+        // 초기화
+        for (let i = 1; i <= 45; i++) {
+            frequency[i] = 0;
+        }
+
+        // 1만회 번호 생성
+        for (let i = 0; i < simCount; i++) {
+            const numbers = generateLottoNumbers();
+            numbers.forEach(num => {
+                frequency[num]++;
+            });
+        }
+
+        // 비율 계산 및 비율 높은 순 정렬
+        const totalNumbers = simCount * 6;
+        const results = Object.keys(frequency).map(num => ({
+            number: Number(num),
+            count: frequency[num],
+            percentage: ((frequency[num] / totalNumbers) * 100).toFixed(2),
+        })).sort((a, b) => b.percentage - a.percentage || a.number - b.number); // 비율 내림차순, 비율 같으면 번호 오름차순
+
+        setSimulationResults(results);
+    };
 
     return (
         <div>
             <h2>랜덤 로또 번호</h2>
             <div>
-                <button onClick={() => setLottoNumbers(generateLottoNumbers())}>새로운 번호 생성</button>
+                <button onClick={handleGenerateLottoNumbers} style={{ marginRight: '10px' }}>
+                    새로운 번호 생성
+                </button>
+                <button onClick={runSimulation}>
+                    1만회 시뮬레이션
+                </button>
             </div>
             <div>
                 {lottoNumbers.map((num, index) => (
@@ -56,6 +91,35 @@ function Random() {
                     </span>
                 ))}
             </div>
+            {simulationResults && (
+                <div style={{ marginTop: '20px' }}>
+                    <h3>1만회 시뮬레이션 결과 (비율 높은 순)</h3>
+                    <div
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(9, 1fr)',
+                            gap: '10px',
+                        }}
+                    >
+                        {simulationResults.map(({ number, count, percentage }) => (
+                            <div
+                                key={number}
+                                style={{
+                                    padding: '10px',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '5px',
+                                    textAlign: 'center',
+                                    background: '#f9f9f9',
+                                }}
+                            >
+                                <strong>{number}</strong>번<br />
+                                {count}회<br />
+                                ({percentage}%)
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -25,6 +25,7 @@ function LottoPick() {
 
     // 상태: 정렬 방식 (number 또는 count)
     const [sortBy, setSortBy] = useState('number');
+    const [highlightedNumbers, setHighlightedNumbers] = useState([]);  // 뽑힌 번호를 저장할 상태 추가
 
     // 배열 변환 및 정렬
     const sortedNumbers = Object.keys(numberCounts)
@@ -38,6 +39,11 @@ function LottoPick() {
             if (sortBy === 'number') return a.number - b.number;
             else return b.count - a.count;
         });
+
+    // 랜덤 번호 뽑기 완료 시 호출되는 함수
+    const handleHighlightedNumbers = (numbers) => {
+        setHighlightedNumbers(numbers);  // 뽑힌 번호로 상태 업데이트
+    };
 
     return (
         <div style={{ margin: '15px' }}>
@@ -55,7 +61,8 @@ function LottoPick() {
                         cursor: 'pointer',
                         fontWeight: sortBy === 'number' ? 'bold' : 'normal',
                     }}>
-                    번호 순 정렬</button>
+                    번호 순 정렬
+                </button>
 
                 <button onClick={() => setSortBy('count')}
                     style={{
@@ -67,7 +74,8 @@ function LottoPick() {
                         cursor: 'pointer',
                         fontWeight: sortBy === 'count' ? 'bold' : 'normal',
                     }}>
-                    당첨 횟수 순 정렬</button>
+                    당첨 횟수 순 정렬
+                </button>
             </div>
 
             <div
@@ -85,7 +93,7 @@ function LottoPick() {
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             textAlign: 'center',
-                            background: '#f9f9f9',
+                            background: highlightedNumbers.includes(number) ? '#ffeb3b' : '#f9f9f9', // 색칠
                         }}
                     >
                         <strong>{number}</strong>번<br />
@@ -94,7 +102,7 @@ function LottoPick() {
                     </div>
                 ))}
             </div>
-            <Random />
+            <Random onHighlightedNumbers={handleHighlightedNumbers} />  {/* 뽑힌 번호를 부모 컴포넌트로 전달 */}
         </div>
     );
 }
