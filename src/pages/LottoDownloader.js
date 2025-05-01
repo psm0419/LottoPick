@@ -38,9 +38,8 @@ function LottoUpdater() {
   };
 
   return (
-    <div>
-      <h2>로또 데이터 업데이트</h2>
-      <button onClick={updateLottoData}>최신 회차만 추가 후 저장</button>
+    <div>      
+      <button onClick={updateLottoData}>로또 당첨번호 다운로드</button>
     </div>
   );
 }
