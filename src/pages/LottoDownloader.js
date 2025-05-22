@@ -3,7 +3,7 @@ import axios from 'axios';
 import existingLottoData from './LottoData';
 
 function LottoUpdater() {
-  const TOTAL_DRAW = 1171; // 최신 회차 (동행복권 기준)
+  const TOTAL_DRAW = 1172; // 최신 회차 (동행복권 기준)
 
   const updateLottoData = async () => {
     const existingDrawNumbers = existingLottoData.map(item => item.drwNo);
