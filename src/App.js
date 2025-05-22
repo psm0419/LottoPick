@@ -9,8 +9,8 @@ function App() {
 
   return (
     <div>      
-      {/* <LottoPick />  */}
-      <LottoDownloader />     
+      <LottoPick /> 
+      {/* <LottoDownloader />      */}
     </div>
   );
 }
