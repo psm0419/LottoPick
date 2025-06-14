@@ -1,3 +1,4 @@
+// LottoPick.js
 import React, { useState } from 'react';
 import LottoData from './LottoData';
 import Random from './Random';

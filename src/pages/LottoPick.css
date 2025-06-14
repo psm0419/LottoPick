@@ -34,8 +34,8 @@
     display: flex;
     flex-direction: column;
     margin-top: 50px;
-    height: calc(100vh - 50px); /* 스크롤 없애기 위해 정확히 한 화면에 맞춤 */
-    overflow: hidden; /* 스크롤 방지 */
+    height: auto; /* 스크롤 허용으로 조정, 하지만 한 화면에 맞게 최적화 */
+    min-height: calc(100vh - 50px);
 }
 
 .left-panel, .right-panel {
@@ -71,11 +71,11 @@
 .number-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(8, 1fr);
-    gap: 5px;
+    grid-template-rows: repeat(8, 1fr); /* 6x8로 고정 */
+    gap: 2px; /* 간격 줄임 */
     padding: 5px;
-    max-height: 400px; /* 한 화면에 맞게 높이 제한 */
-    overflow: hidden; /* 스크롤 방지 */
+    max-height: 350px; /* 6x8 표가 한 화면에 맞게 조정 */
+    overflow: auto; /* 필요 시 스크롤 허용 */
 }
 
 .number-item {
@@ -84,6 +84,7 @@
     border-radius: 3px;
     text-align: center;
     font-size: 10px;
+    min-height: 60px; /* 각 셀 높이 확보 */
 }
 
 .number-item.group-a {
@@ -106,31 +107,30 @@
 
 .random-container {
     text-align: center;
-    position: relative;
-    padding-bottom: 20px; /* 하단 여백 추가 */
+    padding-bottom: 20px;
 }
 
 .button-group {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .LottoMachine {
     max-width: 100%;
     height: auto;
-    max-height: 300px; /* 모바일 화면에 맞게 높이 제한 */
+    max-height: 200px; /* 모바일에서 더 작게 조정 */
     margin: 0 auto;
 }
 
 .random-button {
-    padding: 8px 15px;
+    padding: 6px 10px;
     background-color: #f1f1f1;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .random-button:hover {
@@ -138,14 +138,14 @@
 }
 
 .number-display {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .lotto-number {
-    margin: 0 5px;
+    margin: 0 2px;
 }
 
 /* 데스크톱용 미디어 쿼리 (768px 이상) */
@@ -181,12 +181,13 @@
     .number-grid {
         grid-template-columns: repeat(9, 1fr);
         grid-template-rows: repeat(5, 1fr);
-        max-height: none; /* 데스크톱에서는 높이 제한 해제 */
+        max-height: none;
     }
 
     .number-item {
         padding: 3px;
         font-size: 12px;
+        min-height: 80px;
     }
 
     .lotto-ball {
