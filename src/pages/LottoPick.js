@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LottoData from './LottoData';
 import Random from './Random';
-import './LottoPick.css'; // 스타일 파일 추가 (아래에 정의)
+import './LottoPick.css';
 
 function LottoPick() {
     // 번호 등장 횟수 카운팅

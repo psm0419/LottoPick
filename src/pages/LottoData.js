@@ -18751,6 +18751,54 @@ const LottoData =
             "drwtNo2": 9,
             "drwtNo3": 24,
             "drwtNo1": 7
+        },
+        {
+            "totSellamnt": 118782668000,
+            "returnValue": "success",
+            "drwNoDate": "2025-05-24",
+            "firstWinamnt": 1179946063,
+            "drwtNo6": 35,
+            "drwtNo4": 20,
+            "firstPrzwnerCo": 24,
+            "drwtNo5": 30,
+            "bnusNo": 3,
+            "firstAccumamnt": 28318705512,
+            "drwNo": 1173,
+            "drwtNo2": 5,
+            "drwtNo3": 18,
+            "drwtNo1": 1
+        },
+        {
+            "totSellamnt": 119020467000,
+            "returnValue": "success",
+            "drwNoDate": "2025-05-31",
+            "firstWinamnt": 1910619425,
+            "drwtNo6": 39,
+            "drwtNo4": 17,
+            "firstPrzwnerCo": 15,
+            "drwtNo5": 36,
+            "bnusNo": 22,
+            "firstAccumamnt": 28659291375,
+            "drwNo": 1174,
+            "drwtNo2": 11,
+            "drwtNo3": 14,
+            "drwtNo1": 8
+        },
+        {
+            "totSellamnt": 117488305000,
+            "returnValue": "success",
+            "drwNoDate": "2025-06-07",
+            "firstWinamnt": 1384026094,
+            "drwtNo6": 42,
+            "drwtNo4": 8,
+            "firstPrzwnerCo": 20,
+            "drwtNo5": 32,
+            "bnusNo": 31,
+            "firstAccumamnt": 27680521880,
+            "drwNo": 1175,
+            "drwtNo2": 4,
+            "drwtNo3": 6,
+            "drwtNo1": 3
         }
     ]
 export default LottoData;
