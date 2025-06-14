@@ -9,6 +9,7 @@
 .LottoMachine {
     max-width: 100%;
     height: 500px;
+    margin-top: 35px;
 }
 .random-button {
     padding: 10px 20px;

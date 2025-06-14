@@ -55,6 +55,7 @@
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
+    font-size: 25px;
 }
 
 .history-panel .history-numbers img {

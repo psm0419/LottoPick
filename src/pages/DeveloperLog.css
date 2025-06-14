@@ -1,0 +1,35 @@
+.dev-container {
+    padding-top: 70px;
+    min-height: calc(100vh - 70px);
+    text-align: center;
+}
+
+.dev-panel {
+    padding: 20px;    
+    box-sizing: border-box;
+}
+
+.dev-panel h2 {
+    margin-bottom: 20px;
+}
+
+.dev-panel button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dev-panel button:hover {
+    background-color: #45a049;
+}
+
+.dev-panel .result {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

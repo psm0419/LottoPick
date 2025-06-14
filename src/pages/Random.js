@@ -108,7 +108,7 @@ function Random({ onHighlightedNumbers }) {
 
     return (
         <div className="random-container">
-            <h2>랜덤 로또 번호</h2>
+            
             <img src={`${process.env.PUBLIC_URL}/LottoMachine.png`} alt="LottoMachine" className="LottoMachine"/>
             <div className="button-group">
                 <button onClick={handleGenerateLottoNumbers} className="random-button">
