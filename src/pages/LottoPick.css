@@ -1,6 +1,7 @@
+/* LottoPick.css */
 .navbar {
     background-color: #333;
-    padding: 15px;
+    padding: 10px;
     position: fixed;
     top: 0;
     width: 100%;
@@ -16,13 +17,13 @@
 }
 
 .navbar li {
-    margin: 0 20px;
+    margin: 0 10px;
 }
 
 .navbar a {
     color: white;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .navbar a:hover {
@@ -31,31 +32,29 @@
 
 .main-container {
     display: flex;
-    margin-top: 60px; /* 내비게이션 바 높이만큼 여백 추가 */
-    height: calc(100vh - 70px); /* 화면 높이에서 내비게이션 바 높이 제외 */
+    flex-direction: column;
+    margin-top: 50px;
+    height: calc(100vh - 50px); /* 스크롤 없애기 위해 정확히 한 화면에 맞춤 */
+    overflow: hidden; /* 스크롤 방지 */
 }
 
-.left-panel {
-    width: 65%;
-    padding-left: 20px;    
-    
-}
-
-.right-panel {
-    width: 35%;
+.left-panel, .right-panel {
+    width: 100%;
+    padding: 10px;
 }
 
 .sort-buttons {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .sort-buttons button {
-    padding: 10px 20px;
-    margin-right: 10px;
+    padding: 8px 15px;
+    margin-right: 5px;
     background-color: #f1f1f1;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 12px;
 }
 
 .sort-buttons button.active {
@@ -65,37 +64,150 @@
 }
 
 .group-info {
+    font-size: 12px;
     margin-left: 5px;
 }
 
 .number-grid {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(8, 1fr);
     gap: 5px;
+    padding: 5px;
+    max-height: 400px; /* 한 화면에 맞게 높이 제한 */
+    overflow: hidden; /* 스크롤 방지 */
 }
 
 .number-item {
-    padding: 3px;
+    padding: 2px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 3px;
     text-align: center;
+    font-size: 10px;
 }
 
 .number-item.group-a {
-    background: #e3f2fd; /* Light blue for Group A */
+    background: #e3f2fd;
 }
 
 .number-item.group-b {
-    background: #f5f5f5; /* Light gray for Group B */
+    background: #f5f5f5;
 }
 
 .number-item.highlighted {
-    background: #ffeb3b; /* Yellow for highlighted numbers */
+    background: #ffeb3b;
 }
 
 .lotto-ball {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 5px;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 2px;
+}
+
+.random-container {
+    text-align: center;
+    position: relative;
+    padding-bottom: 20px; /* 하단 여백 추가 */
+}
+
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.LottoMachine {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px; /* 모바일 화면에 맞게 높이 제한 */
+    margin: 0 auto;
+}
+
+.random-button {
+    padding: 8px 15px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.random-button:hover {
+    background-color: #e0e0e0;
+}
+
+.number-display {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.lotto-number {
+    margin: 0 5px;
+}
+
+/* 데스크톱용 미디어 쿼리 (768px 이상) */
+@media (min-width: 768px) {
+    .navbar a {
+        font-size: 18px;
+    }
+
+    .main-container {
+        flex-direction: row;
+        margin-top: 60px;
+        height: calc(100vh - 70px);
+    }
+
+    .left-panel {
+        width: 65%;
+        padding-left: 20px;
+    }
+
+    .right-panel {
+        width: 35%;
+    }
+
+    .sort-buttons button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .group-info {
+        font-size: 14px;
+    }
+
+    .number-grid {
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        max-height: none; /* 데스크톱에서는 높이 제한 해제 */
+    }
+
+    .number-item {
+        padding: 3px;
+        font-size: 12px;
+    }
+
+    .lotto-ball {
+        width: 40px;
+        height: 40px;
+    }
+
+    .LottoMachine {
+        max-height: 500px;
+    }
+
+    .random-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .number-display {
+        gap: 15px;
+    }
+
+    .lotto-number {
+        margin: 0 10px;
+    }
 }

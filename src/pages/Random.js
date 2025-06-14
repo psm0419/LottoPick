@@ -1,5 +1,6 @@
+// Random.js
 import React, { useState } from 'react';
-import './Random.css'; // 스타일 파일 추가 (아래에 정의)
+import './LottoPick.css'; // 통합된 CSS 사용
 
 // 번호별 당첨 횟수
 const numberCounts = {
@@ -108,9 +109,8 @@ function Random({ onHighlightedNumbers }) {
 
     return (
         <div className="random-container">
-            
-            <img src={`${process.env.PUBLIC_URL}/LottoMachine.png`} alt="LottoMachine" className="LottoMachine"/>
-            <div className="button-group">
+            <img src={`${process.env.PUBLIC_URL}/LottoMachine.png`} alt="LottoMachine" className="LottoMachine" />
+            <div className="button-group" style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '10px' }}>
                 <button onClick={handleGenerateLottoNumbers} className="random-button">
                     비율 별 랜덤 뽑기
                 </button>
@@ -121,7 +121,7 @@ function Random({ onHighlightedNumbers }) {
                     4A+2B 뽑기
                 </button>
             </div>
-            <div className="number-display">
+            <div className="number-display" style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '10px' }}>
                 {lottoNumbers.map((num, index) => (
                     <span key={index} className="lotto-number">
                         <img

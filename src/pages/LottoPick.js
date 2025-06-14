@@ -55,7 +55,7 @@ function LottoPick() {
     return (
         <div>
             <div className="main-container">
-                <div className="left-panel"> {/*번호별 당첨 횟수 */}
+                <div className="left-panel">
                     <h2>로또 번호별 1등 당첨 횟수</h2>
                     <div className="sort-buttons">
                         <button
@@ -73,17 +73,11 @@ function LottoPick() {
                         <span className="group-info">
                             ※당첨횟수가 많은 그룹을 A그룹(파란색), 횟수가 적은 그룹을 B그룹(회색)으로 분류
                         </span>
-                        <br></br>
-                        <br></br>
-                        <span>역대 로또 당첨번호들의 A,B그룹의 조합 : </span>
+                        <br />
+                        <br />
+                        <span>역대 로또 당첨번호들의 A,B그룹의 조합: </span>
                         <span>
-                            0A+6B: 7회,
-                            1A+5B: 52회,
-                            2A+4B: 205회,
-                            3A+3B: 361회,
-                            4A+2B: 347회,
-                            5A+1B: 166회,
-                            6A+0B: 31회
+                            0A+6B: 7회, 1A+5B: 52회, 2A+4B: 205회, 3A+3B: 361회, 4A+2B: 347회, 5A+1B: 166회, 6A+0B: 31회
                         </span>
                     </div>
                     <div className="number-grid">
@@ -110,7 +104,7 @@ function LottoPick() {
                     </div>
                 </div>
 
-                <div className="right-panel"> {/* 오른쪽: 랜덤 번호 뽑기 */}
+                <div className="right-panel">
                     <Random onHighlightedNumbers={handleHighlightedNumbers} />
                 </div>
             </div>
