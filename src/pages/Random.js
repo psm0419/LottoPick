@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Random.css'; // 스타일 파일 추가 (아래에 정의)
 
 // 번호별 당첨 횟수
 const numberCounts = {
@@ -48,14 +49,12 @@ function Random({ onHighlightedNumbers }) {
     // 3A+3B 뽑기
     const generate3A3B = () => {
         const lottoNumbers = [];
-        // A그룹에서 3개 뽑기
         while (lottoNumbers.length < 3) {
             const number = getRandomNumberFromGroup(weightedGroupA);
             if (!lottoNumbers.includes(number)) {
                 lottoNumbers.push(number);
             }
         }
-        // B그룹에서 3개 뽑기
         while (lottoNumbers.length < 6) {
             const number = getRandomNumberFromGroup(weightedGroupB);
             if (!lottoNumbers.includes(number)) {
@@ -68,14 +67,12 @@ function Random({ onHighlightedNumbers }) {
     // 4A+2B 뽑기
     const generate4A2B = () => {
         const lottoNumbers = [];
-        // A그룹에서 4개 뽑기
         while (lottoNumbers.length < 4) {
             const number = getRandomNumberFromGroup(weightedGroupA);
             if (!lottoNumbers.includes(number)) {
                 lottoNumbers.push(number);
             }
         }
-        // B그룹에서 2개 뽑기
         while (lottoNumbers.length < 6) {
             const number = getRandomNumberFromGroup(weightedGroupB);
             if (!lottoNumbers.includes(number)) {
@@ -85,9 +82,8 @@ function Random({ onHighlightedNumbers }) {
         return lottoNumbers.sort((a, b) => a - b);
     };
 
-    // 상태: 로또 번호 및 시뮬레이션 결과
+    // 상태: 로또 번호
     const [lottoNumbers, setLottoNumbers] = useState(generateLottoNumbers());
-    const [simulationResults, setSimulationResults] = useState(null);
 
     // 새로운 번호 생성 (기존 방식)
     const handleGenerateLottoNumbers = () => {
@@ -110,89 +106,32 @@ function Random({ onHighlightedNumbers }) {
         onHighlightedNumbers(newLottoNumbers);
     };
 
-    // 1만회 시뮬레이션 함수
-    const runSimulation = () => {
-        const simCount = 10000;
-        const frequency = {};
-        for (let i = 1; i <= 45; i++) {
-            frequency[i] = 0;
-        }
-        for (let i = 0; i < simCount; i++) {
-            const numbers = generateLottoNumbers();
-            numbers.forEach(num => {
-                frequency[num]++;
-            });
-        }
-        const totalNumbers = simCount * 6;
-        const results = Object.keys(frequency).map(num => ({
-            number: Number(num),
-            count: frequency[num],
-            percentage: ((frequency[num] / totalNumbers) * 100).toFixed(2),
-        })).sort((a, b) => b.percentage - a.percentage || a.number - b.number);
-        setSimulationResults(results);
-    };
-
     return (
-        <div>
+        <div className="random-container">
             <h2>랜덤 로또 번호</h2>
-            <div>
-                <button onClick={handleGenerateLottoNumbers} style={{ margin: '10px' }}>
+            <img src={`${process.env.PUBLIC_URL}/LottoMachine.png`} alt="LottoMachine" className="LottoMachine"/>
+            <div className="button-group">
+                <button onClick={handleGenerateLottoNumbers} className="random-button">
                     비율 별 랜덤 뽑기
                 </button>
-                <button onClick={handleGenerate3A3B} style={{ margin: '10px' }}>
+                <button onClick={handleGenerate3A3B} className="random-button">
                     3A+3B 뽑기
                 </button>
-                <button onClick={handleGenerate4A2B} style={{ margin: '10px' }}>
+                <button onClick={handleGenerate4A2B} className="random-button">
                     4A+2B 뽑기
                 </button>
-                <button onClick={runSimulation} style={{ margin: '10px' }}>
-                    1만회 시뮬레이션
-                </button>
             </div>
-            <div>
+            <div className="number-display">
                 {lottoNumbers.map((num, index) => (
-                    <span key={index} style={{ margin: '0 10px' }}>
+                    <span key={index} className="lotto-number">
                         <img
                             src={`https://www.lotto.co.kr/resources/images/lottoball_92/on/${num}.png`}
                             alt={`Number ${num}`}
-                            style={{ width: '40px', height: '40px', marginBottom: '5px' }}
+                            className="lotto-ball"
                         />
                     </span>
                 ))}
             </div>
-            {simulationResults && (
-                <div style={{ marginTop: '20px' }}>
-                    <h3>1만회 시뮬레이션 결과 (비율 높은 순)</h3>
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(9, 1fr)',
-                            gap: '10px',
-                        }}
-                    >
-                        {simulationResults.map(({ number, count, percentage }) => (
-                            <div
-                                key={number}
-                                style={{
-                                    padding: '10px',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '5px',
-                                    textAlign: 'center',
-                                    background: '#f9f9f9',
-                                }}
-                            >
-                                <img
-                                    src={`https://www.lotto.co.kr/resources/images/lottoball_92/on/${number}.png`}
-                                    alt={`Number ${number}`}
-                                    style={{ width: '40px', height: '40px', marginBottom: '5px' }}
-                                /><br />
-                                {count}회<br />
-                                ({percentage}%)
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

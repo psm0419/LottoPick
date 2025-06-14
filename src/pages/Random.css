@@ -1,0 +1,37 @@
+.random-container {
+    text-align: center;
+}
+
+.button-group {
+    margin: 10px 0;
+    
+}
+.LottoMachine {
+    max-width: 100%;
+    height: 500px;
+}
+.random-button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.random-button:hover {
+    background-color: #e0e0e0;
+}
+
+.number-display {
+    margin-top: 20px;
+}
+
+.lotto-number {
+    margin: 0 10px;
+}
+
+.lotto-ball {
+    width: 40px;
+    height: 40px;
+}

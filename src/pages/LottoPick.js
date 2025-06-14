@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LottoData from './LottoData';
 import Random from './Random';
+import './LottoPick.css'; // 스타일 파일 추가 (아래에 정의)
 
 function LottoPick() {
     // 번호 등장 횟수 카운팅
@@ -39,7 +40,6 @@ function LottoPick() {
         .map(num => ({
             number: Number(num),
             count: numberCounts[num],
-            // 비율 계산
             percentage: ((numberCounts[num] / totalCount) * 100).toFixed(2),
         }))
         .sort((a, b) => {
@@ -53,87 +53,67 @@ function LottoPick() {
     };
 
     return (
-        <div style={{ margin: '20px' }}>
-            <h2>로또 번호별 1등 당첨 횟수</h2>
-
-            <div style={{ marginBottom: '20px' }}>
-                <button
-                    onClick={() => setSortBy('number')}
-                    style={{
-                        padding: '10px 20px',
-                        marginRight: '10px',
-                        backgroundColor: sortBy === 'number' ? '#4CAF50' : '#f1f1f1',
-                        color: sortBy === 'number' ? '#fff' : '#000',
-                        border: '1px solid #ccc',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                        fontWeight: sortBy === 'number' ? 'bold' : 'normal',
-                    }}
-                >
-                    번호 순 정렬
-                </button>
-
-                <button
-                    onClick={() => setSortBy('count')}
-                    style={{
-                        padding: '10px 20px',
-                        backgroundColor: sortBy === 'count' ? '#4CAF50' : '#f1f1f1',
-                        color: sortBy === 'count' ? '#fff' : '#000',
-                        border: '1px solid #ccc',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                        fontWeight: sortBy === 'count' ? 'bold' : 'normal',
-                    }}
-                >
-                    당첨 횟수 순 정렬
-                </button>
-                <span style={{ marginLeft: '5px' }}>당첨횟수가 많은 그룹을 A그룹(파란색), 횟수가 적은 그룹을 B그룹(회색)으로 분류</span>
-                <p>역대 로또 당첨번호들의 A,B그룹의 조합</p>
-                <p>
-                    0A+6B: 7회,
-                    1A+5B: 52회,
-                    2A+4B: 205회,
-                    3A+3B: 361회,
-                    4A+2B: 347회,
-                    5A+1B: 166회,
-                    6A+0B: 31회
-                </p>
-            </div>
-
-            <div
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(9, 1fr)',
-                    gap: '10px',
-                }}
-            >
-                {sortedNumbers.map(({ number, count, percentage }) => (
-                    <div
-                        key={number}
-                        style={{
-                            padding: '5px',
-                            border: '1px solid #ccc',
-                            borderRadius: '5px',
-                            textAlign: 'center',
-                            background: highlightedNumbers.includes(number)
-                                ? '#ffeb3b' // Yellow for highlighted numbers
-                                : groupA.has(number)
-                                    ? '#e3f2fd' // Light blue for Group A
-                                    : '#f5f5f5', // Light gray for Group B
-                        }}
-                    >
-                        <img
-                            src={`https://www.lotto.co.kr/resources/images/lottoball_92/on/${number}.png`}
-                            alt={`Number ${number}`}
-                            style={{ width: '40px', height: '40px', marginBottom: '5px' }}
-                        />
-                        <br />
-                        {count}회<br />
-                        ({percentage}%)
+        <div>
+            <div className="main-container">
+                <div className="left-panel"> {/*번호별 당첨 횟수 */}
+                    <h2>로또 번호별 1등 당첨 횟수</h2>
+                    <div className="sort-buttons">
+                        <button
+                            onClick={() => setSortBy('number')}
+                            className={sortBy === 'number' ? 'active' : ''}
+                        >
+                            번호 순 정렬
+                        </button>
+                        <button
+                            onClick={() => setSortBy('count')}
+                            className={sortBy === 'count' ? 'active' : ''}
+                        >
+                            당첨 횟수 순 정렬
+                        </button>
+                        <span className="group-info">
+                            ※당첨횟수가 많은 그룹을 A그룹(파란색), 횟수가 적은 그룹을 B그룹(회색)으로 분류
+                        </span>
+                        <br></br>
+                        <br></br>
+                        <span>역대 로또 당첨번호들의 A,B그룹의 조합 : </span>
+                        <span>
+                            0A+6B: 7회,
+                            1A+5B: 52회,
+                            2A+4B: 205회,
+                            3A+3B: 361회,
+                            4A+2B: 347회,
+                            5A+1B: 166회,
+                            6A+0B: 31회
+                        </span>
                     </div>
-                ))}
+                    <div className="number-grid">
+                        {sortedNumbers.map(({ number, count, percentage }) => (
+                            <div
+                                key={number}
+                                className={`number-item ${highlightedNumbers.includes(number)
+                                        ? 'highlighted'
+                                        : groupA.has(number)
+                                            ? 'group-a'
+                                            : 'group-b'
+                                    }`}
+                            >
+                                <img
+                                    src={`https://www.lotto.co.kr/resources/images/lottoball_92/on/${number}.png`}
+                                    alt={`Number ${number}`}
+                                    className="lotto-ball"
+                                />
+                                <br />
+                                {count}회<br />
+                                ({percentage}%)
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="right-panel"> {/* 오른쪽: 랜덤 번호 뽑기 */}
+                    <Random onHighlightedNumbers={handleHighlightedNumbers} />
+                </div>
             </div>
-            <Random onHighlightedNumbers={handleHighlightedNumbers} />
         </div>
     );
 }

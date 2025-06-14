@@ -1,0 +1,101 @@
+.navbar {
+    background-color: #333;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar li {
+    margin: 0 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.main-container {
+    display: flex;
+    margin-top: 60px; /* 내비게이션 바 높이만큼 여백 추가 */
+    height: calc(100vh - 70px); /* 화면 높이에서 내비게이션 바 높이 제외 */
+}
+
+.left-panel {
+    width: 65%;
+    padding-left: 20px;    
+    
+}
+
+.right-panel {
+    width: 35%;
+}
+
+.sort-buttons {
+    margin-bottom: 20px;
+}
+
+.sort-buttons button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sort-buttons button.active {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.group-info {
+    margin-left: 5px;
+}
+
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.number-item {
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.number-item.group-a {
+    background: #e3f2fd; /* Light blue for Group A */
+}
+
+.number-item.group-b {
+    background: #f5f5f5; /* Light gray for Group B */
+}
+
+.number-item.highlighted {
+    background: #ffeb3b; /* Yellow for highlighted numbers */
+}
+
+.lotto-ball {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}

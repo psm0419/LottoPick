@@ -38,7 +38,10 @@ function LottoUpdater() {
   };
 
   return (
-    <div>      
+    <div>
+      <br></br>
+      <br></br>
+      <br></br>      
       <button onClick={updateLottoData}>로또 당첨번호 다운로드</button>
     </div>
   );
