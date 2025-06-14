@@ -97,7 +97,6 @@ function LottoPick() {
                                     alt={`Number ${number}`}
                                     className="lotto-ball"
                                 />
-                                <br />
                                 {count}회<br />
                                 ({percentage}%)
                             </div>
