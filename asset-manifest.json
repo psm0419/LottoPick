@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/LottoPick/static/css/main.87395b86.css",
-    "main.js": "/LottoPick/static/js/main.a707a596.js",
+    "main.css": "/LottoPick/static/css/main.f1fed20d.css",
+    "main.js": "/LottoPick/static/js/main.c2f41366.js",
     "static/js/453.41c34b7c.chunk.js": "/LottoPick/static/js/453.41c34b7c.chunk.js",
     "index.html": "/LottoPick/index.html",
-    "main.87395b86.css.map": "/LottoPick/static/css/main.87395b86.css.map",
-    "main.a707a596.js.map": "/LottoPick/static/js/main.a707a596.js.map",
+    "main.f1fed20d.css.map": "/LottoPick/static/css/main.f1fed20d.css.map",
+    "main.c2f41366.js.map": "/LottoPick/static/js/main.c2f41366.js.map",
     "453.41c34b7c.chunk.js.map": "/LottoPick/static/js/453.41c34b7c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.87395b86.css",
-    "static/js/main.a707a596.js"
+    "static/css/main.f1fed20d.css",
+    "static/js/main.c2f41366.js"
   ]
 }
