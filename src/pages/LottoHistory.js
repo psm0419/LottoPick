@@ -5,21 +5,24 @@ import './LottoHistory.css';
 function LottoHistory() {
     const [drawNumber, setDrawNumber] = useState('');
     const [lottoData, setLottoData] = useState(null);
-    const TOTAL_DRAW = 1175;
+
+    // LottoData에서 최신 회차 계산
+    const latestDraw = Math.max(...LottoData.map(item => item.drwNo));
 
     useEffect(() => {
-        const latestDraw = TOTAL_DRAW;
+        // 초기 로드 시 최신 회차 데이터 설정
         const data = LottoData.find(item => item.drwNo === latestDraw);
-        setLottoData(data);
-    }, []);
+        setLottoData(data || null);
+        setDrawNumber(latestDraw.toString()); // 입력창에 최신 회차 표시
+    }, [latestDraw]);
 
     const handleSearch = () => {
         const num = parseInt(drawNumber);
-        if (num >= 1 && num <= TOTAL_DRAW) {
+        if (num >= 1 && num <= latestDraw) {
             const data = LottoData.find(item => item.drwNo === num);
             setLottoData(data || null);
         } else {
-            alert('1부터 1175회까지의 유효한 회차를 입력하세요.');
+            alert(`1부터 ${latestDraw}회까지의 유효한 회차를 입력하세요.`);
         }
     };
 
@@ -32,7 +35,7 @@ function LottoHistory() {
                         type="number"
                         value={drawNumber}
                         onChange={(e) => setDrawNumber(e.target.value)}
-                        placeholder="회차를 입력하세요 (최신: 1175)"
+                        placeholder={`회차를 입력하세요 (최신: ${latestDraw || '로딩 중...'})`}
                     />
                     <button onClick={handleSearch}>조회</button>
                 </div>
@@ -41,7 +44,14 @@ function LottoHistory() {
                         <h3>제 {lottoData.drwNo}회 ({lottoData.drwNoDate})</h3>
                         <p>1등 당첨 상금: {lottoData.firstWinamnt.toLocaleString()}원</p>
                         <div className="history-numbers">
-                            {[lottoData.drwtNo1, lottoData.drwtNo2, lottoData.drwtNo3, lottoData.drwtNo4, lottoData.drwtNo5, lottoData.drwtNo6].map((num) => (
+                            {[
+                                lottoData.drwtNo1,
+                                lottoData.drwtNo2,
+                                lottoData.drwtNo3,
+                                lottoData.drwtNo4,
+                                lottoData.drwtNo5,
+                                lottoData.drwtNo6,
+                            ].map((num) => (
                                 <img
                                     key={num}
                                     src={`https://www.lotto.co.kr/resources/images/lottoball_92/on/${num}.png`}

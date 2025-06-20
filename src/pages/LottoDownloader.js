@@ -4,81 +4,93 @@ import existingLottoData from './LottoData';
 
 function LottoDownloader() {
   const [latestDraw, setLatestDraw] = useState(null);
-
-  // 환경 변수로 API 사용 여부 결정 (로컬: true, GitHub Pages: false)
   const isLocal = process.env.NODE_ENV === 'development';
+  console.log('NODE_ENV:', process.env.NODE_ENV, 'isLocal:', isLocal);
 
-  // 최신 회차 가져오기
   useEffect(() => {
-    const fetchLatestDraw = async () => {
-      if (isLocal) {
-        // 로컬 환경: LottoData의 최신 회차와 현재 날짜 비교
-        const latestDataDraw = Math.max(...existingLottoData.map(item => item.drwNo));
-        const latestDate = new Date(existingLottoData[existingLottoData.length - 1].drwNoDate);
-        const now = new Date();
-        now.setHours(now.getHours() + 9); // UTC를 KST로 변환 (UTC+9)
-        const timeDiff = now - latestDate;
-        const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        const weeksSinceLastDraw = Math.floor(daysDiff / 7); // 일주일 간격 (토요일)
+    console.log('latestDraw updated:', latestDraw);
+  }, [latestDraw]);
 
-        let estimatedDraw = latestDataDraw;
-        // 토요일 8:40 이후가 아니면 현재 회차 유지
-        if (now.getDay() === 6 && now.getHours() >= 20 && now.getMinutes() >= 40) {
-          estimatedDraw += weeksSinceLastDraw + 1; // 다음 회차
-        } else {
-          estimatedDraw += weeksSinceLastDraw; // 현재 회차
-        }
+  const fetchLatestDraw = async () => {
+    if (isLocal) {
+      const latestDataDraw = Math.max(...existingLottoData.map(item => item.drwNo));
+      const latestDate = new Date(existingLottoData[existingLottoData.length - 1].drwNoDate);
+      const now = new Date();
+      if (now.getTimezoneOffset() !== -540) {
+        now.setHours(now.getHours() + 9);
+      }
+      console.log('latestDate:', latestDate.toISOString(), 'now:', now.toISOString());
 
-        // API로 확인 (1175 이후부터 estimatedDraw까지)
-        let maxDraw = latestDataDraw;
-        for (let i = latestDataDraw + 1; i <= estimatedDraw; i++) {
-          try {
-            const response = await axios.get(
-              `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${i}`
-            );
-            const data = response.data;
-            if (data.returnValue === 'success') {
-              maxDraw = Math.max(maxDraw, data.drwNo);
-            } else {
-              break; // 유효한 회차가 없으면 중단
-            }
-          } catch (error) {
-            console.error(`API 호출 오류 (drwNo ${i}):`, error);
+      const timeDiff = now - latestDate;
+      const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const weeksSinceLastDraw = Math.ceil(daysDiff / 7);
+      console.log('daysDiff:', daysDiff, 'weeksSinceLastDraw:', weeksSinceLastDraw);
+
+      let estimatedDraw = latestDataDraw + weeksSinceLastDraw;
+      console.log('estimatedDraw:', estimatedDraw);
+
+      let maxDraw = latestDataDraw;
+      for (let i = latestDataDraw + 1; i <= estimatedDraw + 1; i++) {
+        try {
+          const response = await axios.get(
+            `/api/common.do?method=getLottoNumber&drwNo=${i}` // 프록시 경로
+          );
+          const data = response.data;
+          console.log(`drwNo ${i} response:`, data);
+          if (data.returnValue === 'success') {
+            maxDraw = Math.max(maxDraw, data.drwNo);
+          } else {
+            console.log(`drwNo ${i} is invalid`);
             break;
           }
+        } catch (error) {
+          console.error(`API 호출 오류 (drwNo ${i}):`, error.message);
+          break;
         }
-        setLatestDraw(maxDraw);
-      } else {
-        // GitHub Pages: LottoData에서 최대 회차 사용
-        const maxDraw = Math.max(...existingLottoData.map(item => item.drwNo));
-        setLatestDraw(maxDraw);
       }
-    };
+      console.log('final maxDraw:', maxDraw);
+      setLatestDraw(maxDraw);
+    } else {
+      const maxDraw = Math.max(...existingLottoData.map(item => item.drwNo));
+      console.log('GitHub Pages maxDraw:', maxDraw);
+      setLatestDraw(maxDraw);
+    }
+  };
 
+  useEffect(() => {
     fetchLatestDraw().catch(() => {
-      // 에러 발생 시 LottoData 최대 회차로 대체
       const maxDraw = Math.max(...existingLottoData.map(item => item.drwNo));
       setLatestDraw(maxDraw);
     });
-  }, [isLocal]);
+  }, [isLocal, existingLottoData]);
 
   const updateLottoData = async () => {
-    if (!latestDraw) return;
+    if (!latestDraw) {
+      console.log('latestDraw is null, cannot update');
+      return;
+    }
 
     const existingDrawNumbers = existingLottoData.map(item => item.drwNo);
     const lastExistingDraw = Math.max(...existingDrawNumbers);
+    console.log('lastExistingDraw:', lastExistingDraw, 'latestDraw:', latestDraw);
 
     const requests = [];
     for (let i = lastExistingDraw + 1; i <= latestDraw; i++) {
       if (isLocal) {
+        console.log(`Requesting drwNo ${i}`);
         requests.push(
           axios
-            .get(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${i}`)
-            .then(res => res.data)
-            .catch(() => null)
+            .get(`/api/common.do?method=getLottoNumber&drwNo=${i}`) // 프록시 경로
+            .then(res => {
+              console.log(`drwNo ${i} fetched:`, res.data);
+              return res.data;
+            })
+            .catch(error => {
+              console.error(`Error fetching drwNo ${i}:`, error.message);
+              return null;
+            })
         );
       } else {
-        // GitHub Pages에서는 기존 데이터만 사용
         const existingData = existingLottoData.find(item => item.drwNo === i);
         requests.push(Promise.resolve(existingData));
       }
@@ -86,8 +98,10 @@ function LottoDownloader() {
 
     const newResults = await Promise.all(requests);
     const newValidResults = newResults.filter(r => r && (isLocal ? r.returnValue === 'success' : r));
+    console.log('newValidResults:', newValidResults);
 
     const combinedData = [...existingLottoData, ...newValidResults];
+    console.log('combinedData length:', combinedData.length);
 
     const blob = new Blob([JSON.stringify(combinedData, null, 2)], {
       type: 'application/json',
@@ -97,12 +111,12 @@ function LottoDownloader() {
     a.href = url;
     a.download = 'LottoNumber_updated.json';
     a.click();
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url); // 오타 수정
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop:'70px' }}>      
-      <button style={{fontSize: '25px'}}onClick={updateLottoData} disabled={!latestDraw}>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '70px' }}>
+      <button style={{ fontSize: '25px' }} onClick={updateLottoData} disabled={!latestDraw}>
         로또 당첨번호 다운로드 (최신 회차: {latestDraw || '로딩 중...'})
       </button>
     </div>

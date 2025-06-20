@@ -18799,6 +18799,22 @@ const LottoData =
             "drwtNo2": 4,
             "drwtNo3": 6,
             "drwtNo1": 3
+        },
+        {
+            "totSellamnt": 115765450000,
+            "returnValue": "success",
+            "drwNoDate": "2025-06-14",
+            "firstWinamnt": 2052166154,
+            "drwtNo6": 35,
+            "drwtNo4": 21,
+            "firstPrzwnerCo": 13,
+            "drwtNo5": 30,
+            "bnusNo": 29,
+            "firstAccumamnt": 26678160002,
+            "drwNo": 1176,
+            "drwtNo2": 9,
+            "drwtNo3": 11,
+            "drwtNo1": 7
         }
     ]
 export default LottoData;
